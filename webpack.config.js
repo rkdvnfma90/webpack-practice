@@ -1,5 +1,7 @@
-const path = require('path')
 const MyWebPackPlugin = require('./my-webpack-plugin')
+const path = require('path')
+const webpack = require('webpack')
+const childProcess = require('child_process')
 
 // node.js의 모듈 시스템
 module.exports = {
@@ -29,5 +31,19 @@ module.exports = {
       },
     ],
   },
-  plugins: [new MyWebPackPlugin()],
+  plugins: [
+    new MyWebPackPlugin(),
+    new webpack.BannerPlugin({
+      banner: `
+        Build Date : ${new Date().toLocaleString()}
+        Commit Version: ${childProcess.execSync('git rev-parse --short HEAD')}
+        Author: ${childProcess.execSync('git config user.name')}
+      `,
+    }),
+    new webpack.DefinePlugin({
+      TWO: '1+1', // 1+1의 값 2가 출력된다.
+      SUMSTR: JSON.stringify('1+2'), // 1+2 문자열 자체가 출력된다.
+      'api.domain': JSON.stringify('http://dev.api.domain.com'),
+    }),
+  ],
 }
