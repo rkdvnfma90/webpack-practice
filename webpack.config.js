@@ -4,6 +4,7 @@ const webpack = require('webpack')
 const childProcess = require('child_process')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 // node.js의 모듈 시스템
 module.exports = {
@@ -20,7 +21,13 @@ module.exports = {
     rules: [
       {
         test: /\.css$/, // 로더를 적용할 파일을 지정한다.
-        use: ['style-loader', 'css-loader'], // 위 패턴에 해당하는 파일들에 사용할 로더를 명시, 적용되는 순서는 뒤에서부터 앞으로 적용된다.
+        use: [
+          // MiniCssExtractPlugin 를 사용하려면 로더에도 이렇게 추가해줘야 한다.
+          process.env.NODE_EVN === 'production'
+            ? MiniCssExtractPlugin.loader
+            : 'style-loader',
+          'css-loader',
+        ], // 위 패턴에 해당하는 파일들에 사용할 로더를 명시, 적용되는 순서는 뒤에서부터 앞으로 적용된다.
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
@@ -62,5 +69,13 @@ module.exports = {
           : false,
     }),
     new CleanWebpackPlugin(),
+    // 개발환경일땐 굳이 사용할 필요가 없음
+    ...(process.env.NODE_ENV === 'production'
+      ? [
+          new MiniCssExtractPlugin({
+            filename: '[name].css',
+          }),
+        ]
+      : []),
   ],
 }
