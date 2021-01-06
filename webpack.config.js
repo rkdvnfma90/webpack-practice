@@ -1,4 +1,5 @@
 const path = require('path')
+const MyWebPackPlugin = require('./my-webpack-plugin')
 
 // node.js의 모듈 시스템
 module.exports = {
@@ -28,4 +29,5 @@ module.exports = {
       },
     ],
   },
+  plugins: [new MyWebPackPlugin()],
 }
