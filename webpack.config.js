@@ -3,6 +3,7 @@ const path = require('path')
 const webpack = require('webpack')
 const childProcess = require('child_process')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 // node.js의 모듈 시스템
 module.exports = {
@@ -60,5 +61,6 @@ module.exports = {
             }
           : false,
     }),
+    new CleanWebpackPlugin(),
   ],
 }
