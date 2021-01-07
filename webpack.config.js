@@ -10,7 +10,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 module.exports = {
   mode: 'development',
   entry: {
-    main: './src/app.js', // 해당 명칭이 output의 [name] 변수에 동적으로 할당된다.
+    main: './app.js', // 해당 명칭이 output의 [name] 변수에 동적으로 할당된다.
   },
   output: {
     path: path.resolve('./dist'), // node 의 path 모듈을 사용하여 절대경로를 넣어준다.
@@ -37,6 +37,11 @@ module.exports = {
           name: '[name].[ext]?[hash]', // 파일명 형식
           limit: 300000, // url-loader가 위 파일들을 처리 할 때 300kb 미만일 경우 url-loader로 처리하고 그 이상일 경우 file-laoder가 실행한다.
         },
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_momules/, // node_modules 안에 있는 파일들은 babel-loader 가 처리 하지 않도록 함
       },
     ],
   },
