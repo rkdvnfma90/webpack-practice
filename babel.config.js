@@ -7,6 +7,10 @@ module.exports = {
           chrome: '87', // 크롬 87 버전 까지 지원하는 코드라는 의미
           ie: '11', // ie 11 까지 지원하는 코드
         },
+        useBuiltIns: 'usage', // 'entry', false
+        corejs: {
+          version: 2,
+        },
       },
     ],
   ],
